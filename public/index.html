@@ -31,6 +31,17 @@
         socket.on('mensaje', function(payload) {
             console.log('escuchando', payload);
         })
+
+        socket.on('active-bands', function(bands) {
+            console.clear();
+            console.table(bands);
+        })
+
+        socket.on('add-band', function(bands) {
+            const newBand = new Band
+
+
+        })
     </script>
 
 
