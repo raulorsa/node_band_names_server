@@ -1,12 +1,15 @@
 
 const {io} = require('../index.js');
-const Bands = require('../models/bands.js');
+
+const Bands = require('../models/bands');
+const Band = require('../models/band');
 
 const bands = new Bands();
-bands.addBand( new Bands('Queen'));
-bands.addBand( new Bands('Metalica'));
-bands.addBand( new Bands('The Cranberries'));
-bands.addBand( new Bands('Heroes del Silencio'));
+
+bands.addBand( new Band('Queen'));
+bands.addBand( new Band('Metalica'));
+bands.addBand( new Band('The Cranberries'));
+bands.addBand( new Band('Heroes del Silencio'));
 
 // Mensajes de Sockets
 io.on('connection', client => {
@@ -26,21 +29,14 @@ io.on('connection', client => {
         io.emit('Escuchandp', payload);
     });
 
-    client.on('vote-band', (payload)=> {
-        bands.voteBand(payload);
+    client.on('vote-band', (payload) => {
+
+        bands.voteBand( payload.id );
 
         //Usamos IO para enviar a todo el mundo
         io.emit('active-bands', bands.getBands());
     });
 
-
-    client.on('add-band', (payload)=> {
-        const newBand = new Band(payload.name);
-        bands.addBAnd(newBand);
-
-        //Usamos IO para enviar a todo el mundo
-        io.emit('active-bands', bands.getBands());
-    });
 
     client.on('add-band', (payload)=> {
         const newBand = new Band(payload.name);
@@ -52,7 +48,6 @@ io.on('connection', client => {
 
 
     client.on('delete-band', (payload)=> {
-        const newBand = new Band(payload.name);
         bands.deleteBand(payload.id);
         io.emit('active-bands', bands.getBands() );
     });
@@ -67,6 +62,6 @@ io.on('connection', client => {
     client.on('nuevo-mensaje', (payload) => {
         console.log('Escuchando: ', payload);
 
-        io.emit('Escuchandp', payload);
+        io.emit('Escuchando', payload);
     });
 });

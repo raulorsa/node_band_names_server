@@ -1,5 +1,5 @@
 
-const { v4: uuid} = require('uuid');
+const { v4: uuidV4} = require('uuid');
 
 class Band {
     constructor(name = 'no-name'){
@@ -8,3 +8,5 @@ class Band {
         this.votes = 0;
     }
 }
+
+module.exports = Band;
